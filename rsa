@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+
+import sys
+import math
+
+"""
+    This script is used to factorize a number into two primes.
+    It takes a file as input, which contains a number to factorize.
+    The output is printed to stdout.
+    The output is in the form of:
+        <number>=<prime1>*<prime2>
+    If the number is prime, the output is:
+        <number>=1*<number>
+"""
+
+def is_prime(num):
+    if num < 2:
+        return False
+    for i in range(2, int(math.sqrt(num)) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+def factorize(num):
+    if is_prime(num):
+        print(f"{num}={num}*1")
+        return
+
+    for i in range(2, num):
+        if num % i == 0:
+            p = i;
+            q = num // i;
+            print(f"{num}={q}*{p}")
+            return
+
+def factorize_file(filename):
+    with open(filename, "r") as file:
+        num = int(file.readline().strip())
+        factorize(num)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <filename>")
+        sys.exit(1)
+    factorize_file(sys.argv[1])
